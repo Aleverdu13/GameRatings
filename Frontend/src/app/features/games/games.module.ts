@@ -4,10 +4,11 @@ import { GamesRoutingModule } from './games-routing.module';
 import { GameComponent } from './components/game/game.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { GameListComponent } from './components/game-list/game-list.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [GameListComponent, GameComponent, MainPageComponent],
-  imports: [CommonModule, GamesRoutingModule],
+  imports: [CommonModule, GamesRoutingModule, SharedModule],
   exports: [MainPageComponent],
 })
 export class GamesModule {}

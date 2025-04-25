@@ -6,25 +6,55 @@
   
     <!-- Filtros + Búsqueda -->
     <div class="flex-1 px-4 flex items-center gap-4">
-      <select class="bg-gray-800 text-white px-2 py-1 rounded">
-        <option>Categoría</option>
-        <option>Acción</option>
-        <option>Aventura</option>
-        <option>RPG</option>
+      <select [(ngModel)]="category" (change)="onFilterChange()" class="bg-gray-800 text-white px-2 py-1 rounded">
+        <option value="">Categoría</option>
+        <option value="Acción">Acción</option>
+        <option value="Aventura">Aventura</option>
+        <option value="RPG">RPG</option>
       </select>
   
-      <select class="bg-gray-800 text-white px-2 py-1 rounded">
-        <option>Año</option>
-        <option>2025</option>
-        <option>2024</option>
-        <option>2023</option>
+      <select [(ngModel)]="year" (change)="onFilterChange()" class="bg-gray-800 text-white px-2 py-1 rounded">
+        <option value="">Año</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
       </select>
+
+      <!-- Filtro por puntuación mínima -->
+      <select [(ngModel)]="score" (change)="onFilterChange()" class="bg-gray-800 text-white px-2 py-1 rounded">
+        <option value="">Puntuación mínima</option>
+        <option value="9">9+</option>
+        <option value="8">8+</option>
+        <option value="7">7+</option>
+        <option value="6">6+</option>
+      </select>
+
+      <!-- Filtro por plataforma -->
+      <select [(ngModel)]="platform" (change)="onFilterChange()" class="bg-gray-800 text-white px-2 py-1 rounded">
+        <option value="">Plataforma</option>
+        <option value="PC">PC</option>
+        <option value="PS5">PS5</option>
+        <option value="Xbox">Xbox</option>
+        <option value="Switch">Switch</option>
+      </select>
+
+      <!-- Botón para limpiar filtros -->
+      <button
+        (click)="clearFilters()"
+        class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-500 transition"
+      >
+        Limpiar filtros
+      </button>
+
   
       <input
         type="text"
+        [(ngModel)]="search"
+        (input)="onFilterChange()"
         placeholder="Buscar juegos..."
         class="flex-1 px-3 py-1 rounded bg-gray-800 text-white border border-gray-700"
       />
+
     </div>
   
     <!-- Botón login / perfil -->
