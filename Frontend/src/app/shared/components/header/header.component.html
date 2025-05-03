@@ -58,10 +58,30 @@
     </div>
   
     <!-- Botón login / perfil -->
-    <div>
-      <button class="bg-blue-600 px-4 py-1 rounded hover:bg-blue-500">
-        Login
-      </button>
+    <div class="flex gap-4 items-center relative" (click)="onBackgroundClick($event)">
+
+      @if (!isLoggedIn) {
+        <button (click)="openAuthModal()" class="bg-blue-600 px-4 py-1 rounded hover:bg-blue-500 transition">
+          Login
+        </button>
+      } @else {
+        <button (click)="toggleMenu(); $event.stopPropagation()" class="bg-green-600 px-4 py-1 rounded hover:bg-green-500 transition relative">
+          Perfil
+        </button>        
+    
+        @if (menuOpen) {
+          <div (click)="$event.stopPropagation()" class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg overflow-hidden z-20">
+            <button (click)="goToProfile()" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
+              Mi Perfil
+            </button>
+            <button (click)="logout()" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100">
+              Cerrar Sesión
+            </button>
+          </div>
+        }        
+      }
     </div>
+    
+    
   </header>
   

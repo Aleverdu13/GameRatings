@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GameService } from '../../../../core/services/game.service';
+import { Game } from '../../../../interfaces/game.interface';
 
 @Component({
   selector: 'app-game-list',
@@ -23,8 +24,8 @@ export class GameListComponent implements OnInit {
     search: ''
   };
 
-  games: any[] = [];
-  allGames: any[] = [];
+  games: Game[] = [];
+  allGames: Game[] = [];
 
   constructor(private gameService: GameService) {}
 
@@ -35,7 +36,7 @@ export class GameListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameService.getGames().subscribe(data => {
+    this.gameService.getGames().subscribe((data: Game[]) => {
       this.allGames = data;
       this.applyFilters();
     });
@@ -51,6 +52,4 @@ export class GameListComponent implements OnInit {
       return matchCategory && matchYear && matchScore && matchPlatform && matchSearch;
     });
   }
-  
-
 }

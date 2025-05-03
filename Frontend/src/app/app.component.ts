@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthModalService } from './shared/services/auth-modal.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'gameratings-frontend';
+  modalVisible = false;
+
+  constructor(private authModalService: AuthModalService) {
+    this.authModalService.isVisible$.subscribe((visible: boolean) => {
+      this.modalVisible = visible;
+    });
+  }
 }

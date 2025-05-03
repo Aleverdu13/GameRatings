@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { HeaderComponent } from './components/header/header.component';
+import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    AuthModalComponent
   ],
   imports: [
     CommonModule,
@@ -14,6 +16,7 @@ import { HeaderComponent } from './components/header/header.component';
   ],
   exports: [
     HeaderComponent,
+    AuthModalComponent,
     CommonModule,
     FormsModule
   ]
