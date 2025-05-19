@@ -16,7 +16,7 @@ class GameController extends Controller
     // Obtener un juego por su ID
     public function show($id)
     {
-        $game = Game::find($id);
+        $game = Game::with('reviews.user')->findOrFail($id);
 
         if (!$game) {
             return response()->json(['message' => 'Juego no encontrado'], 404);

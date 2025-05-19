@@ -23,7 +23,7 @@ export class AuthModalComponent {
 
   private getErrorMessage(error: any): string {
     if (error.error?.error && typeof error.error.error === 'string') {
-      return error.error.error; // Mensaje simple: "Credenciales inválidas"
+      return error.error.error;
     }
   
     if (error.error && typeof error.error === 'object') {
@@ -51,6 +51,7 @@ export class AuthModalComponent {
   
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
+        this.authService.setUser(response.user);
         this.authService.saveToken(response.token);
         console.log('Login exitoso', response);
         this.closeModal();

@@ -1,0 +1,17 @@
+# Laravel
+/Backend/vendor/
+/Backend/node_modules/
+/Backend/.env
+/Backend/storage/*.key
+/Backend/storage/app/public/*
+/Backend/public/storage
+
+# Angular
+/Frontend/node_modules/
+/Frontend/dist/
+
+# General
+.DS_Store
+*.log
+.idea
+*.sqlite

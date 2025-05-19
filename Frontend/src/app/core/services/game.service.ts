@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Game } from '../../interfaces/game.interface';
+import { Review } from '../../interfaces/review.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,8 @@ export class GameService {
     );
   }
 
+  // Función para asegurarse de que el campo es un array
+  // Si no es un array, intenta parsear el campo como JSON
   private ensureArray(field: any): string[] {
     if (Array.isArray(field)) return field;
     try {
@@ -52,4 +55,10 @@ export class GameService {
       return [];
     }
   }
+
+  // Función para añadir reviews a un juego
+  addReview(gameId: number, review: { score: number; comment: string }): Observable<Review> {
+    return this.http.post<Review>(`${this.apiUrl}/${gameId}/reviews`, review);
+  }
+  
 }

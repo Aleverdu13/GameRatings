@@ -16,6 +16,7 @@ interface RegisterData {
 }
 
 interface LoginResponse {
+  user: User;
   token: string;
 }
 
@@ -59,6 +60,30 @@ export class AuthService {
 
   getUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/user`);
+  }
+
+  getUserId(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+  
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.sub || null;
+    } catch (e) {
+      console.error('Token inválido', e);
+      return null;
+    }
+  }
+
+  private currentUser: User | null = null;
+
+  setUser(user: User): void {
+    console.log('Usuario guardado:', user);
+    this.currentUser = user;
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUser;
   }
 }
 

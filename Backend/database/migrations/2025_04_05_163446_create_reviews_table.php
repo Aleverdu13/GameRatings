@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
             $table->string('title'); // Recommended o Not Recommended
-            $table->text('content');
+            $table->text('comment');
             $table->dateTime('date');
 
             $table->timestamps();

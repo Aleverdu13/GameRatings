@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AchievementSeeder::class);
         $this->call(GameSeeder::class);
         $this->call(PollSeeder::class);
-
+        $this->call(UserSeeder::class);        
     }
 }

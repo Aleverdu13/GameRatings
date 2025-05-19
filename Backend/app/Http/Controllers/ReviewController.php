@@ -22,9 +22,17 @@ class ReviewController extends Controller
     public function store(Request $request, $gameId)
     {
         $validated = $request->validate([
-            'title' => 'required|in:Recommended,Not recommended',
-            'content' => 'required|string',
+            'score' => 'required|integer|min:1|max:10',
+            'comment' => 'required|string|min:5'
         ]);
+
+        // Comprobar si ya existe una review para este juego por parte del usuario
+        $userId = Auth::id();
+
+        $existing = Review::where('user_id', $userId)->where('game_id', $gameId)->first();
+        if ($existing) {
+            return response()->json(['message' => 'Ya has hecho una review para este juego.'], 409);
+        }
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -34,13 +42,18 @@ class ReviewController extends Controller
         }
 
         $review = Review::create([
-            'title' => $validated['title'],
-            'content' => $validated['content'],
+            // 'title' => $validated['title'], // Lo comento porque de momento no van a tener título las reviews, si en un futuro las añado descomentar
+            'comment' => $validated['comment'],
+            'score' => $request->score,
             'date' => now(),
             'game_id' => $gameId,
             'user_id' => $user->id, // requiere login
         ]);
 
-        return response()->json(['message' => 'Review publicada', 'review' => $review], 201);
+        return response()->json([
+            'message' => 'Review publicada',
+            'review' => $review->load('user')
+        ], 201);
+        
     }
 }

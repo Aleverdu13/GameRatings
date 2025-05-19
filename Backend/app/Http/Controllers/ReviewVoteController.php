@@ -43,13 +43,20 @@ class ReviewVoteController extends Controller
 
     public function getVotes($reviewId): JsonResponse
     {
-        $upvotes = \App\Models\ReviewVote::where('review_id', $reviewId)->where('vote', 1)->count();
-        $downvotes = \App\Models\ReviewVote::where('review_id', $reviewId)->where('vote', -1)->count();
+        $userId = Auth::id();
+
+        $upvotes = ReviewVote::where('review_id', $reviewId)->where('vote', 1)->count();
+        $downvotes = ReviewVote::where('review_id', $reviewId)->where('vote', -1)->count();
+
+        $userVote = ReviewVote::where('review_id', $reviewId)
+            ->where('user_id', $userId)
+            ->value('vote'); // puede ser 1, -1 o null
 
         return response()->json([
             'upvotes' => $upvotes,
             'downvotes' => $downvotes,
             'total' => $upvotes - $downvotes,
+            'userVote' => $userVote
         ]);
     }
 }

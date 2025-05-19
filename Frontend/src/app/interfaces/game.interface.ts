@@ -1,3 +1,4 @@
+import { Review } from './review.interface';
 export interface Game {
     id: number;
     name: string;
@@ -8,6 +9,10 @@ export interface Game {
     screenshot: string[];
     videos: string[];
     platforms: string[];
-    sys_req: string[];
+    sys_req: {
+      windows: { min: string; recomm: string };
+      linux: { min: string; recomm: string };
+    };
     tags: string[];
+    reviews: Review[];
   }
