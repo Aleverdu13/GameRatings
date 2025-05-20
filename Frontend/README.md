@@ -9,7 +9,7 @@ Este proyecto es el frontend del sistema **GameRatings**, una plataforma para de
 - Angular
 - TypeScript
 - Bootstrap / Tailwind / CSS
-- API REST (Laravel + Sanctum)
+- API REST (Laravel + JWT)
 
 ---
 
