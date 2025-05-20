@@ -65,6 +65,10 @@ frontend/
 └── README.md
 ~~~
 
+---
+
 ## 👤 Autor
-Desarrollado por Alejandro Verdugo Linero
+Desarrollado por **Alejandro Verdugo Linero**
 Proyecto Integrado – DAW 2025
+
+---
