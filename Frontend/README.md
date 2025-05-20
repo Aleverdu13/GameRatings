@@ -46,7 +46,7 @@ http://localhost:8000/api
 ```
 Asegúrate de que el backend esté levantado y acepte conexiones desde el frontend.
 
-📝 Funcionalidades previstas
+## 📝 Funcionalidades previstas
 
 - Visualización de juegos, puntuaciones y etiquetas
 - Registro e inicio de sesión
@@ -55,7 +55,7 @@ Asegúrate de que el backend esté levantado y acepte conexiones desde el fronte
 - Perfil de usuario y logros
 - Panel de moderación (solo moderadores)
 
-📁 Estructura del proyecto
+## 📁 Estructura del proyecto
 ~~~
 frontend/
 ├── src/
@@ -64,6 +64,7 @@ frontend/
 ├── package.json
 └── README.md
 ~~~
-👤 Autor
+
+## 👤 Autor
 Desarrollado por Alejandro Verdugo Linero
 Proyecto Integrado – DAW 2025
