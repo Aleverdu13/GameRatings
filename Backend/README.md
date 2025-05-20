@@ -1,6 +1,6 @@
 # 🎮 GameRatings – Backend
 
-Este proyecto es el backend de **GameRatings**, una plataforma para que los usuarios descubran, valoren y comenten videojuegos. Está desarrollado con **Laravel 12**, **MySQL** y **Docker**, y ofrece una API RESTful segura con autenticación mediante **Sanctum**.
+Este proyecto es el backend de **GameRatings**, una plataforma para que los usuarios descubran, valoren y comenten videojuegos. Está desarrollado con **Laravel 12**, **MySQL** y **Docker**, y ofrece una API RESTful segura con autenticación mediante **JWT**.
 
 ---
 
@@ -8,7 +8,7 @@ Este proyecto es el backend de **GameRatings**, una plataforma para que los usua
 
 - PHP 8.2 / Laravel 12
 - MySQL 8
-- Laravel Sanctum (autenticación por token)
+- JWT (autenticación por token)
 - Docker + Docker Compose
 - Thunder Client o Postman para pruebas
 
@@ -55,7 +55,7 @@ http://localhost:8000
 
 ## 🔐 Autenticación
 
-El sistema usa **Laravel Sanctum** para autenticar mediante tokens.
+El sistema usa **JWT** para autenticar mediante tokens.
 
 ### Rutas principales:
 
