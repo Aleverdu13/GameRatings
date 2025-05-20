@@ -50,9 +50,17 @@ class ImportGamesFromApi extends Command
                     continue;
                 }
 
-                $details = $detailsRes->json();
+                $details = $detailsRes->json()['data'] ?? [];
 
                 try {
+
+                    // Comprobar si el juego tiene un nombre para arreglar error que no me deja importar
+                    if (!isset($details['name'])) {
+                        $this->error("Falta el campo 'name' para el juego ID $apiId. Contenido devuelto:");
+                        $this->line(json_encode($details, JSON_PRETTY_PRINT));
+                        continue;
+                    }
+
                     Game::create([
                         'id' => $apiId,
                         'name' => $details['name'],
@@ -62,10 +70,10 @@ class ImportGamesFromApi extends Command
                         'screenshot' => json_encode(
                             array_merge(
                                 [$basicGame['img']], // La portada de la API básica
-                                $details['images']['screenshot'] ?? [] // El resto de imágenes
+                                $details['media']['screenshot'] ?? [] // El resto de imágenes
                             )
                         ),
-                        'videos' => json_encode($details['images']['videos'] ?? []),
+                        'videos' => json_encode($details['media']['videos'] ?? []),
                         'platforms' => null,
                         'score' => null,
                         'sys_req' => json_encode($details['sys_req'] ?? []),
