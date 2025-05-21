@@ -1,80 +1,84 @@
 <!-- Fondo oscuro -->
-<div (click)="onBackgroundClick($event)" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <!-- Caja del modal -->
-    <div (click)="$event.stopPropagation()" class="bg-white p-6 rounded-2xl w-full max-w-md shadow-lg relative">
-  
-      <!-- Título -->
-      <h2 class="text-xl font-bold text-center mb-4">
-        {{ isLogin ? 'Iniciar sesión' : 'Registrarse' }}
-        @if (errorMessage) {
-          <div class="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
-            {{ errorMessage }}
+<div (click)="onBackgroundClick($event)" class="login-section fixed inset-0 bg-opacity-90 flex items-center justify-center z-50 font-poppins">
+  <!-- Selector Login/Register -->
+  <div (click)="$event.stopPropagation()" class="w-full max-w-md relative">
+
+    <h6 class="mb-4 text-center font-bold">
+      <label for="swapper" class="log-reg-label">Iniciar sesión</label> <label for="swapper" class="log-reg-label">Registrarse</label>
+    </h6>
+
+    <!-- Checkbox oculto para activar el flip -->
+    <input class="dial" type="checkbox" id="swapper" name="swapper" [checked]="!isLogin" (change)="toggleLoginRegister()" />
+    <label for="swapper" class="dial-label"></label>
+
+    <!-- Card 3D -->
+    <div class="card-section mx-auto">
+      <div class="card-container">
+        <!-- Login -->
+        <div class="card-login">
+          <div class="center-wrap">
+            <div class="section text-center">
+              <h4 class="pb-3">Iniciar sesión</h4>
+
+              @if (errorMessage) {
+                <div class="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
+                  {{ errorMessage }}
+                </div>
+              }
+
+              <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+                <div class="form-group">
+                  <input type="email" [(ngModel)]="loginData.email" name="email" required
+                         class="form-style" placeholder="Email" />
+                  <i class="input-icon uil uil-at"></i>
+                </div>	
+                <div class="form-group mt-2">
+                  <input type="password" [(ngModel)]="loginData.password" name="password" required
+                         class="form-style" placeholder="Contraseña" />
+                  <i class="input-icon uil uil-lock-alt"></i>
+                </div>
+                <button type="submit" class="btn mt-4">Entrar</button>
+              </form>
+
+              <p class="mb-0 mt-4 text-center">
+                <a href="#" class="link">¿Has olvidado tu contraseña?</a>
+              </p>
+            </div>
           </div>
-        }        
-      </h2>
-  
-      <!-- Formulario LOGIN -->
-      <form *ngIf="isLogin; else registerForm" (ngSubmit)="onLogin()" #loginForm="ngForm">
-        <div class="mb-4">
-          <label class="block text-sm font-medium mb-1">Email</label>
-          <input type="email" [(ngModel)]="loginData.email" name="email" required
-                 class="w-full border px-3 py-2 rounded-md" />
         </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium mb-1">Contraseña</label>
-          <input type="password" [(ngModel)]="loginData.password" name="password" required
-                 class="w-full border px-3 py-2 rounded-md" />
+
+        <!-- Registro -->
+        <div class="card-register">
+          <div class="center-wrap">
+            <div class="section text-center">
+              <h4 class="mb-3 pb-3">Registrarse</h4>
+              <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="registerData.name" name="name" required
+                         class="form-style" placeholder="Nombre de usuario" />
+                  <i class="input-icon uil uil-user"></i>
+                </div>	
+                <div class="form-group mt-2">
+                  <input type="email" [(ngModel)]="registerData.email" name="email" required
+                         class="form-style" placeholder="Email" />
+                  <i class="input-icon uil uil-at"></i>
+                </div>
+                <div class="form-group mt-2">
+                  <input type="password" [(ngModel)]="registerData.password" name="password" required
+                         class="form-style" placeholder="Contraseña" />
+                  <i class="input-icon uil uil-lock-alt"></i>
+                </div>
+                <div class="form-group mt-2">
+                  <input type="password" [(ngModel)]="registerData.password_confirmation" name="password_confirmation" required
+                         class="form-style" placeholder="Confirmar contraseña" />
+                  <i class="input-icon uil uil-lock-alt"></i>
+                </div>
+                <button type="submit" class="btn mt-4">Registrarse</button>
+              </form>
+            </div>
+          </div>
         </div>
-        <button type="submit"
-                class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-500 transition">
-          Entrar
-        </button>
-      </form>
-  
-      <!-- Formulario REGISTER -->
-      <ng-template #registerForm>
-        <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Nombre</label>
-            <input type="text" [(ngModel)]="registerData.name" name="name" required
-                   class="w-full border px-3 py-2 rounded-md" />
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Email</label>
-            <input type="email" [(ngModel)]="registerData.email" name="email" required
-                   class="w-full border px-3 py-2 rounded-md" />
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Contraseña</label>
-            <input type="password" [(ngModel)]="registerData.password" name="password" required
-                   class="w-full border px-3 py-2 rounded-md" />
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Confirmar contraseña</label>
-            <input type="password" [(ngModel)]="registerData.password_confirmation"
-                   name="password_confirmation" required
-                   class="w-full border px-3 py-2 rounded-md" />
-          </div>
-          <button type="submit"
-                  class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-500 transition">
-            Registrarse
-          </button>
-        </form>
-      </ng-template>
-  
-      <!-- Cambiar entre login y registro -->
-      <p class="text-sm text-center mt-4">
-        {{ isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
-        <button (click)="toggleLoginRegister()" class="text-blue-600 underline ml-1">
-          {{ isLogin ? 'Regístrate' : 'Inicia sesión' }}
-        </button>
-        
-      </p>
-  
-      <!-- Botón cerrar modal -->
-      <button (click)="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-black">
-        ✖
-      </button>
+      </div>
     </div>
   </div>
-  
+</div>

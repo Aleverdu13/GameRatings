@@ -38,7 +38,7 @@
                 <!-- Contenido del carrusel -->
                 @if (mediaType === 'images') {
                   <img
-                    [src]="currentMedia[activeIndex]"
+                    [src]="currentMedia[activeIndex+1]"
                     alt="Captura del juego"
                     class="w-full h-64 object-cover rounded shadow"
                   />
@@ -90,11 +90,11 @@
             <h4 class="text-lg font-bold mb-2 text-blue-700">Windows</h4>
             <p class="mb-2">
               <span class="font-semibold">Mínimos:</span><br />
-              {{ game?.sys_req?.windows?.min || 'No disponible' }}
+              {{ game?.sys_req?.window?.min || 'No disponible' }}
             </p>
             <p>
               <span class="font-semibold">Recomendados:</span><br />
-              {{ game?.sys_req?.windows?.recomm || 'No disponible' }}
+              {{ game?.sys_req?.window?.recomm || 'No disponible' }}
             </p>
           </div>
       

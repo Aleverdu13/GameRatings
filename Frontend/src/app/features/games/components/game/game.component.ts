@@ -16,4 +16,12 @@ export class GameComponent {
   goToDetail(): void {
     this.router.navigate(['/games', this.game.id]);
   }
+
+  round(value: number) {
+    if (this.game.score !== null) {
+      return value.toFixed(0);
+    } else {
+      return value;
+    }
+  }
 }

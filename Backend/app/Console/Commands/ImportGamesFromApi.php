@@ -22,7 +22,7 @@ class ImportGamesFromApi extends Command
 
         $pagesToImport = (int) $this->option('pages');
 
-        for ($page = 1; $page <= $pagesToImport; $page++) {
+        for ($page = 21; $page <= $pagesToImport; $page++) {
             $this->info("Importando página $page...");
             $response = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/page/$page");
 

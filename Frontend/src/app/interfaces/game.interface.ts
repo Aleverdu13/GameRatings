@@ -10,7 +10,7 @@ export interface Game {
     videos: string[];
     platforms: string[];
     sys_req: {
-      windows: { min: string; recomm: string };
+      window: { min: string; recomm: string };
       linux: { min: string; recomm: string };
     };
     tags: string[];
