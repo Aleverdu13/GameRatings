@@ -9,12 +9,14 @@ import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ProfilePageComponent } from './features/profile/pages/profile-page/profile-page.component';
+import { PollsComponent } from './features/polls/polls.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    PollsComponent
   ],
   imports: [
     BrowserModule,

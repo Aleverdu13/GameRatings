@@ -1,7 +1,8 @@
 export interface Filter {
     category: string;
     year: string;
-    score: string;
+    scoreMin: number;
+    scoreMax: number;
     platform: string;
     search: string;
   }

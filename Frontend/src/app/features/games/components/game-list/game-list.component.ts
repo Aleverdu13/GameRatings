@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from '../../../../core/services/game.service';
 import { Game } from '../../../../interfaces/game.interface';
+import { FilterService } from '../../../../shared/services/filter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game-list',
@@ -8,47 +10,48 @@ import { Game } from '../../../../interfaces/game.interface';
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css'
 })
-
-export class GameListComponent implements OnInit {
-  @Input() filters: {
-    category: string,
-    year: string,
-    score: string,
-    platform: string,
-    search: string
-  } = {
+export class GameListComponent implements OnInit, OnDestroy {
+  games: Game[] = [];
+  allGames: Game[] = [];
+  private filtersSub!: Subscription;
+  private activeFilters = {
     category: '',
     year: '',
-    score: '',
+    scoreMin: 0,
+    scoreMax: 100,
     platform: '',
     search: ''
   };
 
-  games: Game[] = [];
-  allGames: Game[] = [];
-
-  constructor(private gameService: GameService) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filters']) {
-      this.applyFilters();
-    }
-  }
+  constructor(
+    private gameService: GameService,
+    private filterService: FilterService
+  ) {}
 
   ngOnInit(): void {
     this.gameService.getGames().subscribe((data: Game[]) => {
       this.allGames = data;
       this.applyFilters();
+
+      this.filtersSub = this.filterService.filters$.subscribe(filters => {
+        this.activeFilters = filters;
+        this.applyFilters();
+      });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.filtersSub.unsubscribe();
   }
 
   applyFilters(): void {
     this.games = this.allGames.filter(game => {
-      const matchCategory = !this.filters.category || game.tags.includes(this.filters.category);
-      const matchYear = !this.filters.year || new Date(game.release_date).getFullYear().toString() === this.filters.year;
-      const matchScore = !this.filters.score || game.score >= parseFloat(this.filters.score);
-      const matchPlatform = !this.filters.platform || game.platforms.includes(this.filters.platform);
-      const matchSearch = !this.filters.search || game.name.toLowerCase().includes(this.filters.search.toLowerCase());
+      const matchCategory = !this.activeFilters.category || game.tags.includes(this.activeFilters.category);
+      const matchYear = !this.activeFilters.year || new Date(game.release_date).getFullYear().toString() === this.activeFilters.year;
+      const matchScore = game.score >= this.activeFilters.scoreMin && game.score <= this.activeFilters.scoreMax;
+
+      const matchPlatform = !this.activeFilters.platform || game.platforms.includes(this.activeFilters.platform);
+      const matchSearch = !this.activeFilters.search || game.name.toLowerCase().includes(this.activeFilters.search.toLowerCase());
       return matchCategory && matchYear && matchScore && matchPlatform && matchSearch;
     });
   }

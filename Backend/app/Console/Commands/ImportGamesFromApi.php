@@ -45,12 +45,17 @@ class ImportGamesFromApi extends Command
                 // Obtener detalles del juego
                 $detailsRes = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/gameinfo/single_game/{$apiId}");
 
+                //Obtener videos del juego
+                $videosRes = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/media/videos/{$apiId}?limit=8&offset=0'");
+
                 if ($detailsRes->failed()) {
                     $this->error("Error al obtener detalles del juego ID $apiId");
                     continue;
                 }
 
                 $details = $detailsRes->json()['data'] ?? [];
+
+                $videos = $videosRes->json()['data'] ?? [];
 
                 try {
 
@@ -73,7 +78,7 @@ class ImportGamesFromApi extends Command
                                 $details['media']['screenshot'] ?? [] // El resto de imágenes
                             )
                         ),
-                        'videos' => json_encode($details['media']['videos'] ?? []),
+                        'videos' => json_encode($videos ?? []),
                         'platforms' => null,
                         'score' => null,
                         'sys_req' => json_encode($details['sys_req'] ?? []),

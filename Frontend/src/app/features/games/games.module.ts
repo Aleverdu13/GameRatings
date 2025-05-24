@@ -10,6 +10,6 @@ import { GameDetailPageComponent } from './pages/game-detail-page/game-detail-pa
 @NgModule({
   declarations: [GameListComponent, GameComponent, MainPageComponent, GameDetailPageComponent],
   imports: [CommonModule, GamesRoutingModule, SharedModule],
-  exports: [MainPageComponent],
+  exports: [GameListComponent, MainPageComponent],
 })
 export class GamesModule {}

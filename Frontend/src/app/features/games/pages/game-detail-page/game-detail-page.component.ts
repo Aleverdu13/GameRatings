@@ -8,6 +8,7 @@ import { ReviewVoteSummary } from '../../../../interfaces/review-vote.interface'
 import { CommentService } from '../../../../core/services/comment.service';
 import { Comment} from '../../../../interfaces/comment.interface';
 import { CommentVoteService } from '../../../../core/services/comment-vote.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -61,7 +62,8 @@ export class GameDetailPageComponent implements OnInit {
     private authService: AuthService,
     private voteService: ReviewVoteService,
     private commentService: CommentService,
-    private commentVoteService: CommentVoteService
+    private commentVoteService: CommentVoteService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -316,8 +318,26 @@ export class GameDetailPageComponent implements OnInit {
 
   // Método para mostrar las respuestas de un comentario
   toggleReplies(commentId: number): void {
-  this.repliesVisible[commentId] = !this.repliesVisible[commentId];
-}
+    this.repliesVisible[commentId] = !this.repliesVisible[commentId];
+  }
+
+  // Método para convertir una URL de YouTube a una URL de embed
+  toEmbedUrl(url: string): string {
+    const videoId = url.split('v=')[1];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  // Método para sanitizar URLs de videos
+  sanitizeVideoUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.toEmbedUrl(url));
+  }
 
 
+  /*round(value: number) {
+    if (this.game.score !== null) {
+      return value.toFixed(0);
+    } else {
+      return value;
+    }
+  }*/
 }

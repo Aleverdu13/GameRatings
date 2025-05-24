@@ -13,9 +13,9 @@
       <h3 class="text-lg font-bold text-gray-900">{{ game.name }}</h3>
       <span
         [ngClass]="{
-          'text-green-600': game.score >= 8,
-          'text-yellow-500': game.score >= 5 && game.score < 8,
-          'text-red-500': game.score < 5
+          'text-green-600': game.score >= 80,
+          'text-yellow-500': game.score >= 50 && game.score < 80,
+          'text-red-500': game.score < 50
         }"
         class="font-semibold text-sm"
       >
