@@ -4,6 +4,7 @@ export interface Game {
     name: string;
     score: number;
     about: string;
+    about_es: string;
     release_date: string;
     price: number;
     screenshot: string[];

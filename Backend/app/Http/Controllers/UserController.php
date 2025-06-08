@@ -49,4 +49,31 @@ public function profile(): JsonResponse
             'avatar_url' => asset('storage/' . $path),
         ]);
     }
+
+    public function changeName(Request $request): JsonResponse
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        // Verificar si han pasado 14 días desde el último cambio
+        if ($user->last_name_change && now()->diffInDays($user->last_name_change) < 14) {
+            $remaining = 14 - now()->diffInDays($user->last_name_change);
+            return response()->json([
+                'message' => "Solo puedes cambiar tu nombre cada 14 días. Inténtalo en $remaining días."
+            ], 403);
+        }
+
+        $user->name = $request->name;
+        $user->last_name_change = now();
+        $user->save();
+
+        return response()->json([
+            'message' => 'Nombre actualizado',
+            'user' => $user
+        ]);
+    }
 }

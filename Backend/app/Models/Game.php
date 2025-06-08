@@ -11,6 +11,7 @@ class Game extends Model
         'name',
         'score',
         'about',
+        "about_es",
         'release_date',
         'price',
         'screenshot',

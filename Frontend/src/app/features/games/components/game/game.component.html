@@ -1,4 +1,4 @@
-<div (click)="goToDetail()" class="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden cursor-pointer">
+<div (click)="goToDetail()" class="game-card rounded-md overflow-hidden cursor-pointer transition transform hover:scale-105">
   <!-- Imagen principal -->
   <img
     [src]="game.screenshot[0] || 'https://via.placeholder.com/400x225?text=Sin+imagen'"
@@ -9,37 +9,37 @@
   <!-- Contenido -->
   <div class="p-4">
     <!-- Nombre y puntuación -->
-    <div class="flex justify-between items-start mb-2">
-      <h3 class="text-lg font-bold text-gray-900">{{ game.name }}</h3>
+    <div class="flex justify-between items-start mb-3">
+      <h3 class="game-title">{{ game.name }}</h3>
       <span
+        class="score-box"
         [ngClass]="{
-          'text-green-600': game.score >= 80,
-          'text-yellow-500': game.score >= 50 && game.score < 80,
-          'text-red-500': game.score < 50
+          'score-green': game.score >= 80,
+          'score-yellow': game.score >= 50 && game.score < 80,
+          'score-red': game.score < 50
         }"
-        class="font-semibold text-sm"
       >
-        ★ {{ round(game.score) }}
+        {{ round(game.score) }}
       </span>
     </div>
 
     <!-- Fecha -->
-    <p class="text-sm text-gray-500 mb-2">
+    <p class="game-date">
       Lanzamiento: {{ game.release_date | date:'dd/MM/yyyy' }}
     </p>
 
     <!-- Tags -->
-    <div class="flex flex-wrap gap-1 text-xs text-gray-600 mb-2">
+    <div class="flex flex-wrap gap-1 text-xs mt-2">
       @for (tag of game.tags.slice(0, 3); track tag) {
-        <span class="bg-gray-200 rounded-full px-2 py-0.5">{{ tag }}</span>
+        <span class="tag">{{ tag }}</span>
       }
       @if (game.tags.length > 3) {
-        <span class="text-gray-400">+{{ game.tags.length - 3 }}</span>
+        <span class="tag-extra">+{{ game.tags.length - 3 }}</span>
       }
     </div>
 
     <!-- Plataformas -->
-    <div class="text-xs text-gray-400 italic">
+    <div class="game-platforms">
       Plataformas: {{ game.platforms.join(', ') }}
     </div>
   </div>

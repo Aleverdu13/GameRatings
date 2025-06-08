@@ -1,0 +1,5 @@
+.game-list-container {
+  padding: 2rem;
+  background-color: var(--background-color);
+  color: var(--form-text-color);
+}

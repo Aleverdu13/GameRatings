@@ -56,8 +56,9 @@ Route::middleware('auth:api')->post('/comments/{id}/vote', [CommentVoteControlle
 Route::get('/comments/{id}/votes', [CommentVoteController::class, 'getVotes']);
 
 Route::middleware('auth:api')->get('/profile', [UserController::class, 'profile']);
-
 Route::middleware('auth:api')->post('/profile/avatar', [UserController::class, 'uploadAvatar']);
+Route::middleware('auth:api')->post('/profile/change-name', [UserController::class, 'changeName']);
+
 
 Route::get('/polls', [PollController::class, 'index']);
 Route::middleware('auth:api')->post('/polls/vote/{pollOptionId}', [PollController::class, 'vote']);

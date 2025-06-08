@@ -22,7 +22,7 @@ class ReviewController extends Controller
     public function store(Request $request, $gameId)
     {
         $validated = $request->validate([
-            'score' => 'required|integer|min:1|max:10',
+            'score' => 'required|integer|min:1|max:100',
             'comment' => 'required|string|min:5'
         ]);
 
@@ -48,6 +48,8 @@ class ReviewController extends Controller
             'date' => now(),
             'game_id' => $gameId,
             'user_id' => $user->id, // requiere login
+            'user_name' => $user->name,
+            'user_profile' => $user->profile_picture ?? 'assets/images/default-avatar.webp',
         ]);
 
         return response()->json([

@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    protected $fillable = ['score', 'comment', 'date', 'game_id', 'user_id'];
+    protected $fillable = [
+        'game_id',
+        'user_id',
+        'comment',
+        'date',
+        'score',
+        'user_name',
+        'user_profile',
+    ];
+
 
     public function game()
     {

@@ -13,6 +13,13 @@ export class ProfilePageComponent implements OnInit {
   loading: boolean = true;
   error: string = '';
 
+  defaultAvatar = 'assets/images/default-avatar.webp';
+
+  // Variables para editar el nombre
+  editingName = false;
+  newName = '';
+  nameError = '';
+
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -27,4 +34,48 @@ export class ProfilePageComponent implements OnInit {
       }
     });
   }
+
+  onAvatarSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      this.authService.uploadAvatar(formData).subscribe({
+        next: (updatedUser: User) => this.user = updatedUser,
+        error: (err: any) => console.error('Error subiendo avatar', err)
+      });
+    }
+  }
+
+
+  startEditingName(): void {
+    this.newName = this.user?.name ?? '';
+    this.editingName = true;
+  }
+
+  cancelEditingName(): void {
+    this.editingName = false;
+    this.nameError = '';
+  }
+
+  submitNameChange(): void {
+    if (!this.newName.trim()) {
+      this.nameError = 'El nombre no puede estar vacío.';
+      return;
+    }
+
+    this.authService.changeName(this.newName).subscribe({
+      next: (res) => {
+        this.user!.name = this.newName;
+        this.editingName = false;
+        this.nameError = '';
+      },
+      error: (err) => {
+        this.nameError = err.error?.message || 'No se pudo actualizar el nombre.';
+      }
+    });
+  }
+
 }

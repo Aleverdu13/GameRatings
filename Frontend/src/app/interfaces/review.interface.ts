@@ -6,5 +6,8 @@ export interface Review {
     score: number;
     comment: string;
     date: string;
+    user_name: string;
+    user_profile: string;
+    base_score: number;
   }
   

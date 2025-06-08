@@ -9,6 +9,9 @@ import { CommentService } from '../../../../core/services/comment.service';
 import { Comment} from '../../../../interfaces/comment.interface';
 import { CommentVoteService } from '../../../../core/services/comment-vote.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Review } from '../../../../interfaces/review.interface';
+import { LangService } from '../../../../shared/services/lang.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -22,7 +25,7 @@ export class GameDetailPageComponent implements OnInit {
   loading: boolean = true;
   error: string = '';
 
-  score: number = 10;
+  score: number = 100;
   comment: string = '';
   submitError: string = '';
   isSubmitting: boolean = false;
@@ -54,6 +57,9 @@ export class GameDetailPageComponent implements OnInit {
   // Información de las respuestas (visibilidad)
   repliesVisible: { [commentId: number]: boolean } = {};
 
+  aboutToShow: string = '';
+
+  langSubscription!: Subscription;
 
 
   constructor(
@@ -63,17 +69,27 @@ export class GameDetailPageComponent implements OnInit {
     private voteService: ReviewVoteService,
     private commentService: CommentService,
     private commentVoteService: CommentVoteService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private langService: LangService
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-  
+
     this.gameService.getGameById(id).subscribe({
       next: (data: Game) => {
         this.game = data;
         this.loading = false;
-  
+
+        // Mostrar el texto traducido o original
+        this.langSubscription = this.langService.lang$.subscribe(lang => {
+          this.aboutToShow =
+            lang === 'es'
+              ? this.game?.about_es ?? ''
+              : this.game?.about ?? '';
+        });
+
+
         // Detectar si el usuario ya ha hecho una review
         const currentUserId = this.authService.getUserId();
         this.alreadyReviewed = !!this.game.reviews?.some(r => r.user?.id === currentUserId);
@@ -87,7 +103,6 @@ export class GameDetailPageComponent implements OnInit {
             userVote: null
           };
 
-          // Y ahora actualizo con los reales
           this.voteService.getVotes(review.id).subscribe(realVotes => {
             this.votesMap[review.id] = realVotes;
           });
@@ -99,6 +114,13 @@ export class GameDetailPageComponent implements OnInit {
       }
     });
   }
+
+  ngOnDestroy(): void {
+    if (this.langSubscription) {
+      this.langSubscription.unsubscribe();
+    }
+  }
+
   
 
   // Cambia entre imágenes y videos de un juego para rellenar el carrusel
@@ -149,7 +171,7 @@ export class GameDetailPageComponent implements OnInit {
           this.game = updatedGame;
   
           // Resetear formulario
-          this.score = 10;
+          this.score = 100;
           this.comment = '';
           this.isSubmitting = false;
         });
@@ -332,7 +354,6 @@ export class GameDetailPageComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.toEmbedUrl(url));
   }
 
-
   /*round(value: number) {
     if (this.game.score !== null) {
       return value.toFixed(0);
@@ -340,4 +361,18 @@ export class GameDetailPageComponent implements OnInit {
       return value;
     }
   }*/
+
+    getScoreClass(score: number | null | undefined): string {
+      if (score == null) return 'bg-gray-400 text-white';
+      if (score >= 80) return 'bg-green-600 text-white';
+      if (score >= 50) return 'bg-yellow-500 text-white';
+      return 'bg-red-600 text-white';
+    }
+
+    getTotalScore(review: Review): number {
+      const vote = this.votesMap[review.id];
+      const userVotes = vote ? vote.total : 0;
+      return (review.base_score || 0) + userVotes;
+    }
+
 }

@@ -22,7 +22,7 @@ class ImportGamesFromApi extends Command
 
         $pagesToImport = (int) $this->option('pages');
 
-        for ($page = 21; $page <= $pagesToImport; $page++) {
+        for ($page = 1; $page <= $pagesToImport; $page++) {
             $this->info("Importando página $page...");
             $response = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/page/$page");
 
@@ -46,7 +46,7 @@ class ImportGamesFromApi extends Command
                 $detailsRes = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/gameinfo/single_game/{$apiId}");
 
                 //Obtener videos del juego
-                $videosRes = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/media/videos/{$apiId}?limit=8&offset=0'");
+                //$videosRes = Http::withHeaders($headers)->get("https://games-details.p.rapidapi.com/media/videos/{$apiId}?limit=8&offset=0'");
 
                 if ($detailsRes->failed()) {
                     $this->error("Error al obtener detalles del juego ID $apiId");
@@ -55,7 +55,7 @@ class ImportGamesFromApi extends Command
 
                 $details = $detailsRes->json()['data'] ?? [];
 
-                $videos = $videosRes->json()['data'] ?? [];
+                //$videos = $videosRes->json()['data']['videos'] ?? [];
 
                 try {
 

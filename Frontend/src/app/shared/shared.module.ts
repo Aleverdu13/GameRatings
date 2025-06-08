@@ -4,21 +4,24 @@ import { FormsModule } from '@angular/forms';
 
 import { HeaderComponent } from './components/header/header.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
+import { AvatarUrlPipe } from './pipes/avatar-url.pipe';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    AuthModalComponent
+    AuthModalComponent,
+    AvatarUrlPipe
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     HeaderComponent,
     AuthModalComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    AvatarUrlPipe
   ]
 })
 export class SharedModule { }

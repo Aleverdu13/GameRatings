@@ -4,6 +4,7 @@ import { AuthModalService } from '../../services/auth-modal.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FilterService } from '../../services/filter.service';
+import { LangService } from '../../services/lang.service';
 
 @Component({
   selector: 'app-header',
@@ -30,11 +31,14 @@ export class HeaderComponent {
 
   isGamesPage: boolean = false;
 
+  currentLang: 'en' | 'es';
+
   constructor(
     private authModalService: AuthModalService,
     private authService: AuthService,
     private router: Router,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private langService: LangService
   ) {
     this.authService.loggedIn$.subscribe((logged: boolean) => {
       this.isLoggedIn = logged;
@@ -43,6 +47,8 @@ export class HeaderComponent {
     this.router.events.subscribe(() => {
       this.isGamesPage = this.router.url === '/games';
     });
+
+    this.currentLang = this.langService.getLang();
   }
 
   onFilterChange(): void {
@@ -110,5 +116,14 @@ export class HeaderComponent {
 
   goToPolls(): void {
     this.router.navigate(['/polls']);
+  }
+
+  changeLang(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+    if (value === 'en' || value === 'es') {
+      this.currentLang = value;
+      this.langService.setLang(value);
+    }
   }
 }

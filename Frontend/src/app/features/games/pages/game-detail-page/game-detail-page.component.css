@@ -1,0 +1,247 @@
+.game-details-section {
+  background-color: var(--form-background-color);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+.carousel button {
+  transition: all 0.2s ease-in-out;
+}
+
+.sys-req-section {
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--highlight-color);
+  margin-bottom: 1rem;
+}
+
+.sys-box {
+  background-color: var(--form-background-color);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: var(--form-text-color);
+}
+
+.sys-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.sys-label {
+  font-weight: 600;
+  color: var(--highlight-color);
+}
+
+.sys-text {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.reviews-section {
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--highlight-color);
+  margin-bottom: 1rem;
+}
+
+.review-box {
+  background-color: var(--form-background-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  color: var(--form-text-color);
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.review-user {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.review-date {
+  font-size: 0.75rem;
+  color: var(--form-text-color);
+  opacity: 0.7;
+}
+
+.review-score {
+  color: var(--highlight-color);
+  font-weight: 600;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.review-text {
+  font-size: 0.9rem;
+  color: var(--form-text-color);
+  line-height: 1.5;
+}
+
+.review-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.vote-btn {
+  cursor: pointer;
+  color: inherit;
+  background: none;
+  border: none;
+  font-size: 1rem;
+}
+
+.vote-btn.up.active {
+  color: #32cd32;
+}
+
+.vote-btn.down.active {
+  color: #dc143c;
+}
+
+.vote-count {
+  color: var(--form-text-color);
+  opacity: 0.8;
+}
+
+.comment-toggle {
+  color: #3b82f6;
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.no-reviews {
+  color: #999;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+
+.create-review {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--form-background-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: var(--form-text-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--highlight-color);
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--form-text-color);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background-color: #2d2e38;
+  border: 1px solid #4a4b55;
+  color: var(--form-text-color);
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.form-textarea {
+  resize: none;
+}
+
+.form-button {
+  background-color: var(--highlight-color);
+  color: #1f2029;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #ffd86f;
+}
+
+.error-message {
+  color: #ff5f5f;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+
+.comment-box {
+  background-color: #1f2029;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #2a2b38;
+}
+
+.comment-item {
+  background-color: #2b2c3b;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3b4c;
+}
+
+.reply-box {
+  border: 1px solid #444556;
+}
+
+.reply-textarea {
+  width: 100%;
+  background-color: #1f2029;
+  color: #c4c3ca;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  border: 1px solid #444556;
+  resize: none;
+}
+
+.btn-submit-reply {
+  margin-top: 0.5rem;
+  background-color: #ffeba7;
+  color: #1f2029;
+  padding: 0.4rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.btn-submit-reply:hover {
+  background-color: #ffe07c;
+}

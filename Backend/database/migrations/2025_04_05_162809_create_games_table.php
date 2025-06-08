@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id(); // id autoincremental
             $table->string('name'); // nombre del juego
-            $table->float('score')->nullable(); // puntuación (opcional al principio)
+            $table->float('score')->nullable(); // puntuación
             $table->text('about')->nullable(); // descripción larga
+            $table->text('about_es')->nullable(); // descripción en español
             $table->date('release_date')->nullable(); // fecha de salida
             $table->decimal('price', 8, 2)->nullable(); // precio con decimales
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { User } from '../../interfaces/user.interface';
 
 interface LoginData {
@@ -84,6 +84,21 @@ export class AuthService {
 
   getCurrentUser(): User | null {
     return this.currentUser;
+  }
+
+  uploadAvatar(formData: FormData): Observable<User> {
+    return this.http.post<{ avatar_url: string }>(`${this.apiUrl}/profile/avatar`, formData).pipe(
+      tap(response => {
+        if (this.currentUser) {
+          this.currentUser.avatar = response.avatar_url;
+        }
+      }),
+      map(() => this.currentUser!)
+    );
+  }
+
+  changeName(name: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/profile/change-name`, { name });
   }
 }
 

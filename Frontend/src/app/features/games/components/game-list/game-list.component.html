@@ -1,6 +1,6 @@
-<div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4">
+<div class="game-list-container grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
   @for (game of games; track game.id) {
-    @if(game.score > -1 && game.score !== null && game.screenshot[0] !== null) {
+    @if (game.score > -1 && game.score !== null) {
       <app-game [game]="game" />
     }
   }
