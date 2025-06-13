@@ -8,4 +8,9 @@
   --background-color: #1f2029;  
   --form-text-color: #c4c3ca;
   --form-background-color: #2b2e38;
+  --danger-color: #ff4d4d;
+}
+
+body {
+  background-color: var(--background-color);
 }

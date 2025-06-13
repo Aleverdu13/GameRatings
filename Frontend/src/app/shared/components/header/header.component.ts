@@ -31,7 +31,7 @@ export class HeaderComponent {
 
   isGamesPage: boolean = false;
 
-  currentLang: 'en' | 'es';
+  currentLang: 'es' | 'en';
 
   constructor(
     private authModalService: AuthModalService,
@@ -114,6 +114,12 @@ export class HeaderComponent {
     this.router.navigate(['/games']);
   }
 
+  goToGamesAndToggleFilters(): void {
+  this.goToGames();
+  this.toggleFilters();
+}
+
+
   goToPolls(): void {
     this.router.navigate(['/polls']);
   }
@@ -121,7 +127,7 @@ export class HeaderComponent {
   changeLang(event: Event) {
     const target = event.target as HTMLSelectElement;
     const value = target.value;
-    if (value === 'en' || value === 'es') {
+    if (value === 'es' || value === 'en') {
       this.currentLang = value;
       this.langService.setLang(value);
     }

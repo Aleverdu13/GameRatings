@@ -28,7 +28,7 @@ class TranslateGameAbout extends Command
         $texts = $games->pluck('about')->toArray();
 
         $response = Http::withHeaders([
-            'x-rapidapi-key' => env('GAMES_API_KEY2'),
+            'x-rapidapi-key' => env('GAMES_API_KEY3'),
             'x-rapidapi-host' => 'openl-translate.p.rapidapi.com',
             'Content-Type' => 'application/json',
         ])->withBody(json_encode([

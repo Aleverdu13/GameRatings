@@ -5,26 +5,36 @@
   @if (error) {
   <p class="text-center text-red-600">{{ error }}</p>
   } @else {
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-    <!-- Imagen y datos -->
+  <div class="grid grid-cols-1 md:grid-cols-3 grid-rows-[auto_auto] gap-8 mb-10">
+    <!-- Celda 1: Imagen y datos (izquierda arriba) -->
     <div class="flex flex-col items-center md:items-start">
       <img [src]="game?.screenshot?.[0] || 'https://via.placeholder.com/800x400?text=Sin+imagen'" alt="{{ game?.name }}"
         class="w-full h-auto max-h-80 object-contain rounded-xl shadow mb-4" />
+
       <!-- Puntuación -->
       <div class="text-center text-sm font-bold px-4 py-2 rounded-full mb-2" [ngClass]="getScoreClass(game?.score)">
-        {{ game?.score }}/100
+        {{ round(game?.score) }}/100
       </div>
+
       <!-- Plataformas / Fecha -->
       <p class="text-xs text-gray-400 italic mb-1">🎮 {{ (game?.platforms ?? []).join(', ') }}</p>
       <p class="text-xs text-gray-400 italic">📅 {{ game?.release_date | date:'dd/MM/yyyy' }}</p>
     </div>
 
-    <!-- Nombre y Descripción -->
+    <!-- Celda 2: Nombre y descripción (derecha arriba) -->
     <div class="md:col-span-2">
       <h1 class="text-3xl font-bold mb-4 text-[var(--highlight-color)]">{{ game?.name }}</h1>
-      <p class="text-sm leading-relaxed mb-4">{{ aboutToShow }}</p>
+      <p class="text-sm leading-relaxed mb-4">
+        {{ aboutToShow }}
+        <button (click)="toggleAbout()" class="text-[var(--highlight-color)] underline ml-2 text-sm font-medium">
+          {{ showFullAbout ? 'Ver menos' : 'Ver más' }}
+        </button>
+      </p>
 
-      <!-- Carrusel -->
+    </div>
+
+    <!-- Celda 3: Carrusel (toda la fila abajo) -->
+    <div class="md:col-span-3">
       <div class="carousel mt-6">
         <div class="flex justify-between items-center mb-2">
           <h3 class="text-xl font-semibold text-[var(--highlight-color)]">
@@ -39,7 +49,7 @@
         <div class="relative w-full">
           @if (mediaType === 'images') {
           <img [src]="currentMedia[activeIndex+1]" alt="Captura del juego"
-            class="w-full h-64 object-cover rounded-xl shadow-lg" />
+            class="w-75 h-75 m-auto object-cover rounded-xl shadow-lg" />
           } @else {
           <iframe [src]="sanitizeVideoUrl(currentMedia[activeIndex])" title="Video" frameborder="0" allowfullscreen
             class="w-full h-64 rounded-xl shadow-lg"></iframe>
@@ -47,12 +57,12 @@
 
           <!-- Flechas -->
           <button (click)="activeIndex = (activeIndex - 1 + currentMedia.length) % currentMedia.length"
-            class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 p-2 rounded-full shadow hover:bg-opacity-100">
+            class="carousel-arrow left-arrow">
             ‹
           </button>
 
           <button (click)="activeIndex = (activeIndex + 1) % currentMedia.length"
-            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 p-2 rounded-full shadow hover:bg-opacity-100">
+            class="carousel-arrow right-arrow">
             ›
           </button>
         </div>
@@ -62,6 +72,7 @@
       </div>
     </div>
   </div>
+
   }
   }
 
@@ -139,7 +150,7 @@
             class="vote-btn down">👎</button>
           <span class="vote-count">
             @if (votesMap[review.id]) {
-              {{ getTotalScore(review) >= 0 ? '+' : '' }}{{ getTotalScore(review) }} votos
+            {{ getTotalScore(review) >= 0 ? '+' : '' }}{{ getTotalScore(review) }} votos
             }
           </span>
 

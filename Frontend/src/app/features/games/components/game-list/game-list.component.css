@@ -1,5 +1,13 @@
 .game-list-container {
   padding: 2rem;
+  max-width: 90%;
+  margin: 0 auto;
   background-color: var(--background-color);
   color: var(--form-text-color);
+}
+
+button.active {
+  background-color: var(--highlight-color);
+  color: var(--background-color);
+  font-weight: bold;
 }

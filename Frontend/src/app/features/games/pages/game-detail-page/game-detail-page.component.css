@@ -3,9 +3,8 @@
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-.carousel button {
-  transition: all 0.2s ease-in-out;
+  max-width: 90%;
+  margin: auto;
 }
 
 .sys-req-section {
@@ -244,4 +243,86 @@
 
 .btn-submit-reply:hover {
   background-color: #ffe07c;
+}
+
+.carousel {
+  background-color: var(--form-background-color);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.carousel h3 {
+  color: var(--highlight-color);
+}
+
+.carousel button.link {
+  color: var(--highlight-color);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.carousel button.link:hover {
+  text-decoration: underline;
+  color: #ffe07a;
+}
+
+.carousel img,
+.carousel iframe {
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.carousel img:hover,
+.carousel iframe:hover {
+  transform: scale(1.01);
+}
+
+.carousel button {
+  color: #1f2029;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.carousel button:hover {
+  transform: scale(1.1);
+}
+
+.carousel-arrow {
+  background-color: var(--highlight-color);
+  color: #1f2029;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.carousel-arrow:hover {
+  background-color: #ffe07a;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.carousel-arrow.left-arrow {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel-arrow.right-arrow {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
 }

@@ -14,7 +14,7 @@ class UpdateGameVideos extends Command
     public function handle()
     {
         $headers = [
-            'X-RapidAPI-Key' => env('GAMES_API_KEY2'),
+            'X-RapidAPI-Key' => env('GAMES_API_KEY3'),
             'X-RapidAPI-Host' => 'games-details.p.rapidapi.com',
         ];
 

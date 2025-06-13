@@ -1,0 +1,81 @@
+/* Estilo general del contenedor */
+.polls-container {
+  color: var(--form-text-color);
+}
+
+/* Tarjeta de encuesta */
+.poll-card {
+  background-color: var(--form-background-color);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.poll-card:hover {
+  transform: scale(1.01);
+}
+
+/* Título y descripción */
+.text-highlight {
+  color: var(--highlight-color);
+}
+
+/* Botones de opciones */
+.option-btn {
+  background-color: var(--highlight-color);
+  margin-top: 10px;
+  color: #1f2029;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+  background-color: #ffe07a;
+  transform: translateX(2px);
+}
+
+/* Resultados */
+.result-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+}
+
+/* Snackbar */
+.snackbar {
+  visibility: hidden;
+  min-width: 200px;
+  background-color: var(--highlight-color);
+  color: #1f2029;
+  text-align: center;
+  border-radius: 6px;
+  padding: 12px 20px;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.4s ease, bottom 0.4s ease;
+}
+
+.snackbar.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 40px;
+}
+
+/* Botón animado */
+.option-btn:active {
+  transform: scale(0.97);
+  background-color: #ffd95c;
+}
+
+.progress-bar {
+  background-color: var(--highlight-color);
+  height: 100%;
+  border-radius: 0.5rem;
+  transition: width 0.6s ease-in-out;
+}

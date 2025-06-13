@@ -12,6 +12,7 @@ class Review extends Model
         'comment',
         'date',
         'score',
+        'base_score',
         'user_name',
         'user_profile',
     ];

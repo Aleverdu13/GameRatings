@@ -57,8 +57,6 @@ export class GameDetailPageComponent implements OnInit {
   // Información de las respuestas (visibilidad)
   repliesVisible: { [commentId: number]: boolean } = {};
 
-  aboutToShow: string = '';
-
   langSubscription!: Subscription;
 
 
@@ -80,15 +78,6 @@ export class GameDetailPageComponent implements OnInit {
       next: (data: Game) => {
         this.game = data;
         this.loading = false;
-
-        // Mostrar el texto traducido o original
-        this.langSubscription = this.langService.lang$.subscribe(lang => {
-          this.aboutToShow =
-            lang === 'es'
-              ? this.game?.about_es ?? ''
-              : this.game?.about ?? '';
-        });
-
 
         // Detectar si el usuario ya ha hecho una review
         const currentUserId = this.authService.getUserId();
@@ -354,13 +343,13 @@ export class GameDetailPageComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.toEmbedUrl(url));
   }
 
-  /*round(value: number) {
-    if (this.game.score !== null) {
-      return value.toFixed(0);
+  round(value: number | null | undefined) {
+    if (this.game?.score !== null) {
+      return value?.toFixed(0);
     } else {
       return value;
     }
-  }*/
+  }
 
     getScoreClass(score: number | null | undefined): string {
       if (score == null) return 'bg-gray-400 text-white';
@@ -375,4 +364,20 @@ export class GameDetailPageComponent implements OnInit {
       return (review.base_score || 0) + userVotes;
     }
 
+    showFullAbout: boolean = false;
+
+    get aboutToShow(): string {
+      if (!this.game) return '';
+
+      const lang = this.langService.getLang();
+      const about = lang === 'es' ? this.game.about_es : this.game.about;
+
+      if (!about) return '';
+
+      return this.showFullAbout ? about : about.slice(0, 800) + '...';
+    }
+
+    toggleAbout(): void {
+      this.showFullAbout = !this.showFullAbout;
+    }
 }

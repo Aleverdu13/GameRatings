@@ -58,8 +58,17 @@ class ImportGameReviews extends Command
                     continue;
                 }
 
-                $helpful = (int) filter_var($data['rating']['helpful'] ?? '0', FILTER_SANITIZE_NUMBER_INT);
-                $funny = (int) filter_var($data['rating']['funny'] ?? '0', FILTER_SANITIZE_NUMBER_INT);
+                $helpfulRaw = $data['rating']['helpful'] ?? '0';
+                $funnyRaw = $data['rating']['funny'] ?? '0';
+
+                $helpful = is_numeric($helpfulRaw)
+                    ? (int) $helpfulRaw
+                    : (preg_match('/\d+/', $helpfulRaw, $matches) ? (int) $matches[0] : 0);
+
+                $funny = is_numeric($funnyRaw)
+                    ? (int) $funnyRaw
+                    : (preg_match('/\d+/', $funnyRaw, $matches) ? (int) $matches[0] : 0);
+
 
                 // 3. Limpiar foto de perfil
                 $userProfile = $data['user_profile'] ?? '';

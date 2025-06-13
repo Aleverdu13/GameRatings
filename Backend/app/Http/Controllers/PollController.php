@@ -15,10 +15,27 @@ class PollController extends Controller
 
     public function index(): JsonResponse
     {
-        $polls = Poll::with('options')->get();
+        $polls = Poll::with(['options.votes'])->get();
+
+        // Añadir recuento de votos y porcentaje
+        $polls = $polls->map(function ($poll) {
+            $totalVotes = $poll->options->sum(fn($opt) => $opt->votes->count());
+
+            $poll->total_votes = $totalVotes;
+
+            $poll->options = $poll->options->map(function ($option) use ($totalVotes) {
+                $votesCount = $option->votes->count();
+                $option->votes_count = $votesCount;
+                $option->percentage = $totalVotes > 0 ? round(($votesCount / $totalVotes) * 100) : 0;
+                return $option;
+            });
+
+            return $poll;
+        });
 
         return response()->json($polls);
     }
+
 
     public function vote(Request $request, $pollOptionId): JsonResponse
     {

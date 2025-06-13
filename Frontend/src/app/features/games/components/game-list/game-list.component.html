@@ -1,7 +1,26 @@
 <div class="game-list-container grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
-  @for (game of games; track game.id) {
+  @for (game of paginatedGames; track game.id) {
     @if (game.score > -1 && game.score !== null) {
       <app-game [game]="game" />
     }
   }
+</div>
+<div class="pagination-controls flex justify-center items-center gap-2 mt-6 text-white">
+  <button (click)="prevPage()" [disabled]="currentPage === 1" class="px-3 py-1 bg-gray-600 rounded hover:bg-gray-500 disabled:opacity-40">
+    ← Anterior
+  </button>
+
+  @for (page of pages; track page) {
+    <button
+      (click)="goToPage(page)"
+      [class.active]="page === currentPage"
+      class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-500"
+    >
+      {{ page }}
+    </button>
+  }
+
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 bg-gray-600 rounded hover:bg-gray-500 disabled:opacity-40">
+    Siguiente →
+  </button>
 </div>

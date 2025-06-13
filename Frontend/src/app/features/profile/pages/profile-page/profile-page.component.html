@@ -1,34 +1,36 @@
-<div class="max-w-xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded shadow text-center">
+<div class="profile-card">
   @if (loading) {
-    <p>Cargando perfil...</p>
+    <p class="text-gray-500 italic">Cargando perfil...</p>
   } @else if (error) {
-    <p class="text-red-600">{{ error }}</p>
+    <p class="text-red-600 font-semibold">{{ error }}</p>
   } @else {
-      <img [src]="'http://localhost:8000/storage/' + user?.avatar || defaultAvatar"
-      class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-300 dark:border-gray-600"
-    />
+    <img [src]="'http://localhost:8000/storage/' + user?.avatar || defaultAvatar"
+      class="profile-avatar" />
 
     <h2 class="text-2xl font-bold mb-1">{{ user?.name }}</h2>
-    <p><strong>Nombre:</strong>
+
+    <!-- Nombre editable -->
+    <p class="mb-2">
+      <strong>Nombre:</strong>
       @if (!editingName) {
         {{ user?.name }}
-        <button (click)="startEditingName()" class="ml-2 text-blue-600 underline text-sm">Editar</button>
+        <button (click)="startEditingName()" class="edit-link ml-2">Editar</button>
       } @else {
-        <input [(ngModel)]="newName" class="border px-2 py-1 rounded text-black" />
-        <button (click)="submitNameChange()" class="ml-2 bg-green-600 text-white px-2 py-1 rounded">Guardar</button>
-        <button (click)="cancelEditingName()" class="ml-2 text-sm text-gray-500">Cancelar</button>
+        <input [(ngModel)]="newName" class="edit-input" />
+        <button (click)="submitNameChange()" class="save-btn ml-2">Guardar</button>
+        <button (click)="cancelEditingName()" class="cancel-btn ml-2">Cancelar</button>
       }
     </p>
     <p *ngIf="nameError" class="text-red-500 text-sm mt-1">{{ nameError }}</p>
 
+    <!-- Email y fecha -->
+    <p class="text-sm text-gray-500 mb-1">{{ user?.email }}</p>
+    <p class="text-sm text-gray-500">Miembro desde: {{ user?.created_at | date:'longDate' }}</p>
 
-    <p class="text-gray-600 dark:text-gray-400">{{ user?.email }}</p>
-    <p><strong>Miembro desde:</strong> {{ user?.created_at | date:'longDate' }}</p>
-
-    <!-- Subir avatar -->
+    <!-- Cambiar avatar -->
     <div class="mt-4">
-      <label class="block mb-1 font-medium">Cambiar avatar:</label>
-      <input type="file" (change)="onAvatarSelected($event)" accept="image/*" class="text-sm" />
+      <label class="block text-sm font-medium mb-1">Cambiar avatar:</label>
+      <input type="file" (change)="onAvatarSelected($event)" accept="image/*" class="text-sm file-input" />
     </div>
   }
 </div>

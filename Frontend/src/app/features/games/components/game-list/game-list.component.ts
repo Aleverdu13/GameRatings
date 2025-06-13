@@ -55,4 +55,36 @@ export class GameListComponent implements OnInit, OnDestroy {
       return matchCategory && matchYear && matchScore && matchPlatform && matchSearch;
     });
   }
+
+  currentPage: number = 1;
+  itemsPerPage: number = 20;
+
+  get paginatedGames(): any[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.games.slice(start, start + this.itemsPerPage);
+  }
+
+  nextPage(): void {
+    if ((this.currentPage * this.itemsPerPage) < this.games.length) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.games.length / this.itemsPerPage);
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 }

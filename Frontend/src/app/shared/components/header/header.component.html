@@ -1,99 +1,108 @@
 <header class="header-bar flex items-center justify-between p-4 shadow-md relative">
   <!-- Navbar -->
   <div class="flex items-center gap-4" (click)="onBackgroundClick($event)">
-    
-    <!-- Logo -->
-    <div class="logo-title text-xl font-bold mr-6">
-      <a routerLink="/" (click)="$event.stopPropagation()">🎮 GameRatings</a>
-    </div>
 
-    <!-- Juegos y filtros -->
-    <div class="relative group">
-      <button (click)="goToGames()" class="nav-btn">
-        Juegos &nbsp; ▾
-      </button>
+    <div class="flex items-center gap-4">
+      <!-- Logo -->
+      <div class="logo-title text-xl font-bold mr-6">
+        <a routerLink="/" (click)="$event.stopPropagation()">🎮 GameRatings</a>
+      </div>
 
-      @if (isGamesPage) {
-        <div class="filters-dropdown group-hover:visible">
-          <div class="flex flex-row gap-2 flex-wrap">
-            <select [(ngModel)]="category" (change)="onFilterChange()" class="filter-select">
-              <option value="">Categoría</option>
-              @for (cat of categories; track cat) {
-                <option [value]="cat">{{ cat }}</option>
-              }
-            </select>
-
-            <select [(ngModel)]="year" (change)="onFilterChange()" class="filter-select">
-              <option value="">Año</option>
-              @for (year of years; track year) {
-                <option [value]="year">{{ year }}</option>
-              }
-            </select>
-
-            <div class="score-range text-sm text-white w-full max-w-xs">
-              <label class="mb-1 block">Puntuación</label>
-              <div class="flex items-center gap-2">
-                <span class="w-10 text-right">{{ scoreMin }}</span>
-                <input type="range" min="0" max="100" step="1"
-                  [(ngModel)]="scoreMin" (change)="onFilterChange()"
-                  class="score-slider" />
-                <input type="range" min="0" max="100" step="1"
-                  [(ngModel)]="scoreMax" (change)="onFilterChange()"
-                  class="score-slider" />
-                <span class="w-10 text-left">{{ scoreMax }}</span>
-              </div>
-            </div>
-
-            <select [(ngModel)]="platform" (change)="onFilterChange()" class="filter-select">
-              <option value="">Plataforma</option>
-              @for (plat of platforms; track plat) {
-                <option [value]="plat">{{ plat }}</option>
-              }
-            </select>
-
-            <input type="text" [(ngModel)]="search" (input)="onFilterChange()"
-              placeholder="Buscar juegos..." class="filter-search" />
-
-            <button (click)="clearFilters()" class="clear-btn">
-              Limpiar filtros
-            </button>
-          </div>
+      <!-- Juegos y filtros -->
+      <div class="relative group">
+        <!-- Botón para abrir/cerrar menú -->
+        <div class="relative">
+          <button (click)="goToGamesAndToggleFilters()" class="nav-btn">
+            🎮 Juegos ▾
+          </button>
         </div>
-      }
+      </div>
+
+      <!-- Noticias -->
+      <a routerLink="/news" class="nav-btn">Noticias</a>
+
+      <!-- Encuestas -->
+      <button (click)="goToPolls()" class="nav-btn">Encuestas</button>
+
+      <!-- Botón IA -->
+      <button disabled class="nav-btn disabled-btn">
+        🤖 IA Recomienda (próximamente)
+      </button>
     </div>
 
-    <!-- Noticias -->
-    <a routerLink="/news" class="nav-btn">Noticias</a>
-
-    <!-- Encuestas -->
-    <button (click)="goToPolls()" class="nav-btn">Encuestas</button>
-
-    <!-- Botón IA -->
-    <button disabled class="nav-btn disabled-btn">
-      🤖 IA Recomienda (próximamente)
-    </button>
-
-    <select (change)="changeLang($event)" [value]="currentLang">
-      <option value="en">English</option>
-      <option value="es">Español</option>
-    </select>
+    <div class="flex items-center gap-4 ml-auto">
+      <select (change)="changeLang($event)" [value]="currentLang">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+      </select>
 
 
 
-    <!-- Login / Perfil -->
-    @if (!isLoggedIn) {
+      <!-- Login / Perfil -->
+      @if (!isLoggedIn) {
       <button (click)="openAuthModal()" class="login-btn">Login</button>
-    } @else {
+      } @else {
       <button (click)="toggleMenu(); $event.stopPropagation()" class="profile-btn relative">
         Perfil
       </button>
 
       @if (menuOpen) {
-        <div (click)="$event.stopPropagation()" class="profile-menu">
-          <button (click)="goToProfile()" class="menu-item">Mi Perfil</button>
-          <button (click)="logout()" class="menu-item logout">Cerrar Sesión</button>
-        </div>
+      <div (click)="$event.stopPropagation()" class="profile-menu">
+        <button (click)="goToProfile()" class="menu-item">Mi Perfil</button>
+        <button (click)="logout()" class="menu-item logout">Cerrar Sesión</button>
+      </div>
       }
-    }
+      }
+    </div>
+
   </div>
 </header>
+
+@if (isGamesPage) {
+<div class="filters-wrapper" [class.visible]="showFilters">
+  <div class="filters-dropdown">
+    <div class="flex flex-row gap-2 flex-wrap">
+      <!-- Filtros -->
+      <select [(ngModel)]="category" (change)="onFilterChange()" class="filter-select">
+        <option value="">Categoría</option>
+        @for (cat of categories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+
+      <select [(ngModel)]="year" (change)="onFilterChange()" class="filter-select">
+        <option value="">Año</option>
+        @for (year of years; track year) {
+        <option [value]="year">{{ year }}</option>
+        }
+      </select>
+
+      <div class="score-range text-sm text-white w-full max-w-xs">
+        <label class="mb-1 block">Puntuación</label>
+        <div class="flex items-center gap-2">
+          <span class="w-10 text-right">{{ scoreMin }}</span>
+          <input type="range" min="0" max="100" step="1" [(ngModel)]="scoreMin" (change)="onFilterChange()"
+            class="score-slider" />
+          <input type="range" min="0" max="100" step="1" [(ngModel)]="scoreMax" (change)="onFilterChange()"
+            class="score-slider" />
+          <span class="w-10 text-left">{{ scoreMax }}</span>
+        </div>
+      </div>
+
+      <select [(ngModel)]="platform" (change)="onFilterChange()" class="filter-select">
+        <option value="">Plataforma</option>
+        @for (plat of platforms; track plat) {
+        <option [value]="plat">{{ plat }}</option>
+        }
+      </select>
+
+      <input type="text" [(ngModel)]="search" (input)="onFilterChange()" placeholder="Buscar juegos..."
+        class="filter-search" />
+
+      <button (click)="clearFilters()" class="clear-btn">
+        Limpiar filtros
+      </button>
+    </div>
+  </div>
+</div>
+}

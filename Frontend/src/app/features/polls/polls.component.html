@@ -1,25 +1,48 @@
-<div class="p-6">
-  <h2 class="text-2xl font-bold mb-4 text-white">Encuestas</h2>
+<div class="polls-container p-6">
+  <h2 class="text-2xl font-bold mb-6 text-highlight">🗳️ Encuestas</h2>
 
   @for (poll of polls; track poll.id) {
-    <div class="bg-gray-800 text-white p-4 rounded shadow mb-6">
-      <h3 class="text-xl font-semibold mb-2">{{ poll.title }}</h3>
-      <p class="mb-3 text-gray-400">{{ poll.description }}</p>
+    <div class="poll-card bg-form p-5 rounded-lg shadow-lg mb-8">
+      <h3 class="text-xl font-semibold text-highlight mb-1">{{ poll.title }}</h3>
+      <p class="text-sm text-gray-400 mb-4">{{ poll.description }}</p>
 
       @if (!votedPolls.has(poll.id)) {
         @for (option of poll.options; track option.id) {
           <div class="mb-2">
             <button
               (click)="vote(poll.id, option.id)"
-              class="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded"
+              class="option-btn w-full text-left"
             >
               {{ option.text }}
             </button>
           </div>
         }
       } @else {
-        <div class="text-green-400">Ya has votado en esta encuesta.</div>
+        <div class="space-y-3">
+          @for (option of poll.options; track option.id) {
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>{{ option.text }}</span>
+                <span>{{ option.percentage }}%</span>
+              </div>
+              <div class="w-full bg-gray-700 h-4 rounded">
+                <div class="w-full bg-gray-700 h-4 rounded overflow-hidden">
+                  <div
+                    class="h-4 bg-green-500 rounded progress-bar"
+                    [style.width.%]="option.percentage"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          }
+
+          <p class="mt-2 text-green-400 text-sm">Ya has votado en esta encuesta.</p>
+        </div>
       }
+
     </div>
   }
+</div>
+<div class="snackbar" [class.show]="snackbarVisible">
+  {{ snackbarMessage }}
 </div>
