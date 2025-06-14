@@ -41,7 +41,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.filtersSub.unsubscribe();
+    this.filtersSub?.unsubscribe();
   }
 
   applyFilters(): void {
