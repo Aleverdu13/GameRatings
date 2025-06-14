@@ -1,33 +1,28 @@
-<header class="header-bar flex items-center justify-between p-4 shadow-md relative">
-  <!-- Navbar -->
-  <div class="flex items-center gap-4" (click)="onBackgroundClick($event)">
+<header class="header-bar flex items-center inline-block justify-between p-4 shadow-md relative">
+  <!-- Logo + Menú hamburguesa -->
+  <div class="flex items-center justify-between">
+    <a routerLink="/" class="logo-title text-xl font-bold flex items-center">
+      <img src="assets/images/Logo_GameRatings.png" alt="Logo" class="logo-img inline-block mr-2">
+      <span class="logo-title-initial">G</span>ame<span class="logo-title-initial">R</span>atings
+    </a>
 
+    <!-- Botón hamburguesa (solo móvil) -->
+    <button class="md:hidden text-highlight text-3xl" (click)="menuOpen = !menuOpen">
+      ☰
+    </button>
+  </div>
+
+  <!-- Menú principal (escritorio) -->
+  <div class="hidden md:flex items-center gap-4 md:mt-0">
     <div class="flex items-center gap-4">
-      <!-- Logo -->
-      <div class="logo-title text-xl font-bold mr-6">
-        <a routerLink="/" (click)="$event.stopPropagation()">🎮 GameRatings</a>
+      <div class="relative">
+        <button (click)="goToGamesAndToggleFilters()" class="nav-btn">
+          Juegos ▾
+        </button>
       </div>
-
-      <!-- Juegos y filtros -->
-      <div class="relative group">
-        <!-- Botón para abrir/cerrar menú -->
-        <div class="relative">
-          <button (click)="goToGamesAndToggleFilters()" class="nav-btn">
-            🎮 Juegos ▾
-          </button>
-        </div>
-      </div>
-
-      <!-- Noticias -->
       <a routerLink="/news" class="nav-btn">Noticias</a>
-
-      <!-- Encuestas -->
       <button (click)="goToPolls()" class="nav-btn">Encuestas</button>
-
-      <!-- Botón IA -->
-      <button disabled class="nav-btn disabled-btn">
-        🤖 IA Recomienda (próximamente)
-      </button>
+      <button disabled class="nav-btn disabled-btn">🤖 IA Recomienda (próximamente)</button>
     </div>
 
     <div class="flex items-center gap-4 ml-auto">
@@ -36,30 +31,77 @@
         <option value="en">English</option>
       </select>
 
+      <ng-container *ngIf="!isLoggedIn">
+        <button (click)="openAuthModal()" class="login-btn">Login</button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <button (click)="toggleMenu(); $event.stopPropagation()" class="profile-btn relative">Perfil</button>
+        <div *ngIf="menuOpen" (click)="$event.stopPropagation()" class="profile-menu">
+          <button (click)="goToProfile()" class="menu-item">Mi Perfil</button>
+          <button (click)="logout()" class="menu-item logout">Cerrar Sesión</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 
+  <!-- Menú hamburguesa desplegable (móvil) -->
+  <div *ngIf="menuOpen" class="md:hidden absolute top-full left-0 w-full bg-[var(--form-background-color)] shadow-lg z-50">
+    <div class="p-4 flex flex-col gap-3">
+      <button (click)="goToGamesAndToggleFilters()" class="nav-btn w-full">Juegos</button>
+      <a routerLink="/news" class="nav-btn w-full text-left">Noticias</a>
+      <button (click)="goToPolls()" class="nav-btn w-full text-left">Encuestas</button>
+      <button disabled class="nav-btn disabled-btn w-full text-left">🤖 IA Recomienda</button>
+
+      <hr class="my-2 border-highlight">
+
+      <!-- Select idioma -->
+      <select (change)="changeLang($event)" [value]="currentLang" class="w-full bg-[var(--background-color)] text-[var(--form-text-color)] p-2 rounded">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+      </select>
 
       <!-- Login / Perfil -->
-      @if (!isLoggedIn) {
-      <button (click)="openAuthModal()" class="login-btn">Login</button>
-      } @else {
-      <button (click)="toggleMenu(); $event.stopPropagation()" class="profile-btn relative">
-        Perfil
-      </button>
+      <ng-container *ngIf="!isLoggedIn">
+        <button (click)="openAuthModal()" class="login-btn w-full">Login</button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <button (click)="goToProfile()" class="profile-btn w-full">Mi Perfil</button>
+        <button (click)="logout()" class="menu-item logout w-full text-left">Cerrar Sesión</button>
+      </ng-container>
 
-      @if (menuOpen) {
-      <div (click)="$event.stopPropagation()" class="profile-menu">
-        <button (click)="goToProfile()" class="menu-item">Mi Perfil</button>
-        <button (click)="logout()" class="menu-item logout">Cerrar Sesión</button>
+      <!-- Filtros si está en la página de juegos Y se han activado -->
+      <div *ngIf="isGamesPage && showFilters" class="mt-4">
+        <h3 class="text-highlight text-sm font-semibold mb-2">Filtros</h3>
+        <select [(ngModel)]="category" (change)="onFilterChange()" class="filter-select w-full mb-2">
+          <option value="">Categoría</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+        <select [(ngModel)]="year" (change)="onFilterChange()" class="filter-select w-full mb-2">
+          <option value="">Año</option>
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+        <div class="text-sm text-white mb-2">
+          <label class="block">Puntuación</label>
+          <div class="flex items-center gap-2">
+            <span class="w-8 text-right">{{ scoreMin }}</span>
+            <input type="range" min="0" max="100" [(ngModel)]="scoreMin" (change)="onFilterChange()" class="score-slider">
+            <input type="range" min="0" max="100" [(ngModel)]="scoreMax" (change)="onFilterChange()" class="score-slider">
+            <span class="w-8 text-left">{{ scoreMax }}</span>
+          </div>
+        </div>
+        <select [(ngModel)]="platform" (change)="onFilterChange()" class="filter-select w-full mb-2">
+          <option value="">Plataforma</option>
+          <option *ngFor="let plat of platforms" [value]="plat">{{ plat }}</option>
+        </select>
+        <input type="text" [(ngModel)]="search" (input)="onFilterChange()" placeholder="Buscar juegos..." class="filter-search w-full mb-2">
+        <button (click)="clearFilters()" class="clear-btn w-full">Limpiar filtros</button>
       </div>
-      }
-      }
     </div>
-
   </div>
 </header>
 
-@if (isGamesPage) {
-<div class="filters-wrapper" [class.visible]="showFilters">
+@if (isGamesPage && showFilters) {
+<div class="filters-wrapper hidden md:block" [class.visible]="showFilters">
   <div class="filters-dropdown">
     <div class="flex flex-row gap-2 flex-wrap">
       <!-- Filtros -->
